@@ -4,8 +4,8 @@
 $(document).ready(function () {
 
   //sets the date to the current day
-  var date = moment().format('dddd');
-  $("#currentDay").text(date)
+  var date = moment().format('dddd, MMMM, d');
+  $("#currentDay").text(date+ "th")
 
  
 
@@ -18,7 +18,7 @@ $(document).ready(function () {
     row = $('<div class= "row">')
     colHour = $(`<div class ="col-lg-2 hour">${AmOrPm(i)}</div>`)
     colInput = $(`<div class ="col-lg-8 inputcontent"><input data-input="${i}" id="inputText${i}" class="form-control inputText" type="text" name="userInput"></div>`)
-    colBtn = $(`<div class ="col-lg-2"><button data-id="${i}" id="savePlanner" class="btn btn-success btn-block"><i class="fas fa-save"></i> Save</button></div>`)
+    colBtn = $(`<div class ="col-lg-2"><button data-id="${i}" id="savePlanner" class="btn btn-success btn-block saveBtn"><i class="fas fa-save"></i> Save</button></div>`)
     row.append(colHour)
     row.append(colInput)
     row.append(colBtn)
@@ -35,7 +35,6 @@ $(document).ready(function () {
   //gets the local storage and puts the input into the input box
   function getLocalStorage(hour) {
     let getInput = localStorage.getItem(hour)
-    console.log(getInput)
     var input = $(`#inputText${hour}`).val(getInput)
   }
   //  Convert Am to Pm
@@ -59,10 +58,13 @@ function updateColor() {
   var hour = new Date().getHours();
   for (var i = 9; i < 18; i++) {
     if (hour == i) {
-      $(`#inputText${i}`).css("background", "red")
+      $(`#inputText${i}`).addClass("present")
     } else if (hour < i) {
 
-      $(`#inputText${i}`).css("background", "lightblue")
+      $(`#inputText${i}`).addClass("future")
+
+    }else if(hour > i){
+      $(`#inputText${i}`).addClass("past")
 
     }
   }
